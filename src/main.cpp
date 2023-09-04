@@ -1,27 +1,37 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include <iostream>
+#include "AStar.cpp"
 // #include <Collision.h>
 
 const float DEG_TO_RADIANS = M_PI/180.f;
 int main() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Driving Robot Simulation");
 
+    sf::Image image;
+    image.create(window.getSize().x, window.getSize().y, sf::Color::Black);
+    sf::Texture texture;
+    sf::Sprite sprite;
 
 
-    // sf::Texture texture;
+    coordinate start = {390, 290};
 
-    // if (!texture.loadFromFile("../assets/Kirby.png"))
-    // {
-    //     std::cout << "Couldnt load texture" << std::endl; // error...
-    // }
+    coordinate goal = {10, 10};
 
-    // sf::Sprite robot;
-    // robot.setTexture(texture);
+    std::vector< std::vector<node>> nodeList = createNodeList(start, goal, 5000);
 
-    // robot.setScale(1/4.f,1/4.f);
+   
+    for (auto& nodeCol : nodeList){
+            for(auto& node: nodeCol){
+                image.setPixel(node.coordinate.x, node.coordinate.y,{255,0,0});
+                // std::cout << node.coordinate.x << " " << node.coordinate.y << std::endl;
+                // sf::Vertex point(sf::Vector2f(node.coordinate.x, node.coordinate.y), sf::Color::Magenta);
+                // window.draw(&point, 1, sf::Points);
+            }
+    }
 
-
+    texture.loadFromImage(image);
+    sprite.setTexture(texture);
 
     sf::RectangleShape robot(sf::Vector2f(80.f, 50.f));
     robot.setFillColor(sf::Color::Blue);
@@ -100,12 +110,15 @@ int main() {
         }
         
 
-        
 
     
         // rect.setFillColor(sf::Color::Red);
 
         window.clear();
+
+
+        window.draw(sprite);
+
         window.draw(wall);
         window.draw(robot);
         // window.draw(rect);

@@ -1,22 +1,21 @@
-#include <AStar.hpp>
+#include "AStar.hpp"
 
 std::vector<float> uniformGenerator(float min, float max, int count)
 {    
-   
-    std::random_device                  rand_dev;
-    std::mt19937                        generator(rand_dev());
-    std::uniform_real_distribution<> distr(min, max);
+    float spacing = (max - min)/static_cast<float>(count);
+
     std::vector <float> output;
 
     for (int i = 0; i < count; i++){
-        output.emplace_back(distr(generator));
+
+        output.emplace_back(min + i * spacing);
     }
     return output;
 }
 
 
 
-std::vector< std::vector<node>> createNodeList (coordinate start, coordinate goal, int numPoints=1000){
+std::vector< std::vector<node>> createNodeList (coordinate start, coordinate goal, int numPoints){
 
     float xMin = std::min(start.x, goal.x);
     float xMax = std::max(start.x, goal.x);
@@ -37,6 +36,7 @@ std::vector< std::vector<node>> createNodeList (coordinate start, coordinate goa
     for (int i = 0; i < sqrtPoints; i++){
         
         std::vector<node> tempNodeList;
+        std::cout << xCoords[i] << std::endl; 
         
         for (int j = 0; j < sqrtPoints; j++){
             coordinate coord = {xCoords[i], yCoords[j]};
@@ -49,11 +49,6 @@ std::vector< std::vector<node>> createNodeList (coordinate start, coordinate goa
     }
 
     return nodeList;
-
-
-
-
-
 
 }
 
@@ -70,9 +65,10 @@ bool AStar(coordinate start, coordinate goal, std::function<float(coordinate, co
     std::priority_queue<node, std::vector<node>, std::greater<node>> openSet;
 
     node startNode = {0,start};
-    openSet.push(startNode);
+    // openSet.push(startNode);
 
     std::vector<node> cameFrom;
+    return 1;
 
 
 }
