@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include <iostream>
-#include <Collision.h>
+// #include <Collision.h>
 
 const float DEG_TO_RADIANS = M_PI/180.f;
 int main() {
@@ -9,23 +9,23 @@ int main() {
 
 
 
-    sf::Texture texture;
+    // sf::Texture texture;
 
-    if (!texture.loadFromFile("../assets/Kirby.png"))
-    {
-        std::cout << "Couldnt load texture" << std::endl; // error...
-    }
+    // if (!texture.loadFromFile("../assets/Kirby.png"))
+    // {
+    //     std::cout << "Couldnt load texture" << std::endl; // error...
+    // }
 
-    sf::Sprite robot;
-    robot.setTexture(texture);
+    // sf::Sprite robot;
+    // robot.setTexture(texture);
 
-    robot.setScale(1/4.f,1/4.f);
+    // robot.setScale(1/4.f,1/4.f);
 
 
 
-    // sf::RectangleShape robot(sf::Vector2f(80.f, 50.f));
-    // robot.setFillColor(sf::Color::Blue);
-    robot.setOrigin(16.f, 16.f);
+    sf::RectangleShape robot(sf::Vector2f(80.f, 50.f));
+    robot.setFillColor(sf::Color::Blue);
+    robot.setOrigin(40.f, 25.f);
     robot.setPosition(390, 290); // Starting position
 
 
