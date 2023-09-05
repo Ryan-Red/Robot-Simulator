@@ -14,6 +14,8 @@ typedef struct coordinate {
 typedef struct node {
     float cost;
     coordinate coordinate;
+    int i;
+    int j;
 } node; 
 
 

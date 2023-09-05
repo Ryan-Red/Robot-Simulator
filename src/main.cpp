@@ -18,15 +18,13 @@ int main() {
 
     coordinate goal = {10, 10};
 
-    std::vector< std::vector<node>> nodeList = createNodeList(start, goal, 5000);
+    std::vector< std::vector<node>> nodeList = createNodeList(start, goal, 20,20);
 
    
     for (auto& nodeCol : nodeList){
             for(auto& node: nodeCol){
                 image.setPixel(node.coordinate.x, node.coordinate.y,{255,0,0});
-                // std::cout << node.coordinate.x << " " << node.coordinate.y << std::endl;
-                // sf::Vertex point(sf::Vector2f(node.coordinate.x, node.coordinate.y), sf::Color::Magenta);
-                // window.draw(&point, 1, sf::Points);
+                std::cout << node.coordinate.x << " " << node.coordinate.y << std::endl;
             }
     }
 
@@ -61,8 +59,6 @@ int main() {
                 window.close();
         }
 
-
-        
         // Handle user input
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
