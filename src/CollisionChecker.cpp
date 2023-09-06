@@ -1,6 +1,23 @@
+#pragma once
+
 #include <iostream>
 #include <vector>
-// #include <algorithm>
+#include <SFML/Graphics.hpp>
+
+
+/*
+    True if point is in collision, false if point is not in collision
+*/
+bool pointInCollision(sf::Image obstaclesDrawing, float x, float y ){
+    // std::cout << obstaclesDrawing.getPixel(static_cast<int>(x), static_cast<int>(y)).r << std::endl;
+    // sf::Color blk(255,255,255);
+    if(obstaclesDrawing.getPixel(static_cast<int>(x), static_cast<int>(y)) == sf::Color::Black){
+        return true;
+    }
+    return false;
+
+
+}
 
 bool pointInPolygon(std::vector<float> polygon){
 
@@ -110,11 +127,11 @@ int unitTests(){
     return 1;
 }
 
-int main(){
+// int main(){
 
-    return unitTests();
+//     return unitTests();
 
 
-    // return 1;
+//     // return 1;
 
-}
+// }

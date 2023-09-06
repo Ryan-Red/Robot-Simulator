@@ -1,9 +1,13 @@
+#pragma once
+
 #include <queue>
 #include <vector>
 #include <cmath>
 #include <functional>
 #include <iostream>
 #include <algorithm>
+#include <random>
+#include "CollisionChecker.cpp"
 
 typedef struct coordinate {
     float x;

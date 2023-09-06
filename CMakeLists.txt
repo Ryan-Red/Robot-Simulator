@@ -14,4 +14,4 @@ message("${SFML_INCLUDE_DIRS}")
 target_link_libraries(HelloSFML sfml-system sfml-window sfml-graphics sfml-audio sfml-network)
 
 
-add_executable(ColliderCheck src/CollisionChecker.cpp)
+# add_executable(ColliderCheck src/CollisionChecker.cpp)
