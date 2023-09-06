@@ -24,6 +24,37 @@ std::vector<float> uniformGenerator(float min, float max, int count)
     return output;
 }
 
+std::vector<coordinate> prmGenerator(coordinate topLeft, coordinate bottomRight, std::vector<std::vector<coordinate>> polygonVertices, int count){
+
+    std::vector<coordinate> output;
+
+    std::random_device                  rand_dev;
+    std::mt19937                        generator(rand_dev());
+    std::uniform_real_distribution<float> distrX(topLeft.x, bottomRight.x);
+    std::uniform_real_distribution<float> distrY(topLeft.y, bottomRight.y);
+
+    for(int i = 0; i < count; i++){
+        while(true){
+            coordinate tmp = {distrX(generator), distrY(generator)};
+            bool collided = geometricCollisionDection(polygonVertices, tmp);
+
+            if(collided == false){
+                // std::cout << "Safe again!" << std::endl;
+                output.emplace_back(tmp);
+                break;
+            }else{
+                std::cout << "collided for point: " << tmp.x << " " << tmp.y << std::endl; 
+            }
+        }
+        
+       
+    }
+
+    return output;
+   
+}
+
+
 std::vector<coordinate> prmGenerator(coordinate topLeft, coordinate bottomRight, sf::Image obstaclesDrawing, int count){
 
     std::vector<coordinate> output;

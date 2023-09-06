@@ -2,7 +2,7 @@
 #include <cmath>
 #include <iostream>
 #include "AStar.cpp"
-// #include <Collision.h>
+#include <Collision.h>
 
 const float DEG_TO_RADIANS = M_PI/180.f;
 int main() {
@@ -14,40 +14,46 @@ int main() {
 
     wall.setFillColor(sf::Color::White);
     wall.setPosition(100, 290); // Starting position
+
+
+    sf::RectangleShape wall2(sf::Vector2f(100.f, 100.f));
+
+
+    wall2.setFillColor(sf::Color::White);
+    wall2.setPosition(300, 310); // Starting position
    
-    window.draw(wall);
-    window.display();
 
 
 
-    sf::Vector2u windowSize = window.getSize();
-    sf::Texture tex;
-    tex.create(windowSize.x, windowSize.y);
-    tex.update(window);
-    sf::Image obstaclesDrawing = tex.copyToImage();
-    obstaclesDrawing.saveToFile("img.jpg");
 
     sf::Image image;
     image.create(window.getSize().x, window.getSize().y, sf::Color::Black);
     sf::Texture texture;
     sf::Sprite sprite;
 
+    window.draw(wall2);
+    window.draw(wall);
+    window.display();
+
     
     
 
 
-    coordinate start = {300, 300};
+    coordinate start = {500, 500};
 
-    coordinate goal = {200, 200};
+    coordinate goal = {10, 10};
 
-    std::cout << obstaclesDrawing.getPixel(101,290).r << obstaclesDrawing.getPixel(101,290).g << obstaclesDrawing.getPixel(101,290).b << std::endl;
 
+    std::vector<std::vector<coordinate>> polygonVertices = {{{100.f, 290.f}, {300.f, 290.f}, {300.f, 340.f}, {100.f, 340.f}}, {{300, 310}, {400, 310}, {400, 410}, {300, 410}}};
+
+    
     // std::vector< std::vector<node>> nodeList = createNodeList(start, goal, 20,20);
-    std::vector<coordinate> coordinateList = prmGenerator(start,goal, obstaclesDrawing, 10);
+    // unitTests();
+    std::vector<coordinate> coordinateList = prmGenerator(start,goal, polygonVertices, 5000);
     for (auto& node : coordinateList){
            
         image.setPixel(node.x, node.y,{255,0,0});
-        std::cout << node.x << " " << node.y << std::endl;
+        // std::cout << node.x << " " << node.y << std::endl;
             
     }
 
@@ -79,7 +85,14 @@ int main() {
     float angle = 0.f;
 
 
+    sf::Vector2u windowSize = window.getSize();
+    sf::Texture tex;
+    tex.create(windowSize.x, windowSize.y);
+    tex.update(window);
+    sf::Image obstaclesDrawing = tex.copyToImage();
+    int ret = obstaclesDrawing.saveToFile("img.png");
 
+    std::cout << "Return is: " << ret << std::endl;
 
     while (window.isOpen()) {
 
@@ -145,8 +158,8 @@ int main() {
         window.clear();
 
         window.draw(sprite);
+        // window.draw(wall);
 
-        window.draw(wall);
         window.draw(robot);
         // window.draw(rect);
         window.display();

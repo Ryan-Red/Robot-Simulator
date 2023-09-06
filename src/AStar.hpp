@@ -7,20 +7,10 @@
 #include <iostream>
 #include <algorithm>
 #include <random>
+#include "../include/coordinate.h"
+#include "../include/node.h"
+
 #include "CollisionChecker.cpp"
-
-typedef struct coordinate {
-    float x;
-    float y;
-} coordinate;
-
-
-typedef struct node {
-    float cost;
-    coordinate coordinate;
-    int i;
-    int j;
-} node; 
 
 
 std::vector< std::vector<node>> createNodeList (coordinate start, coordinate goal, int numPoints);

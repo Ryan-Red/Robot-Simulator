@@ -1,8 +1,6 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
-#include <SFML/Graphics.hpp>
+#include "CollisionChecker.hpp"
 
 
 /*
@@ -18,6 +16,28 @@ bool pointInCollision(sf::Image obstaclesDrawing, float x, float y ){
 
 
 }
+bool geometricCollisionDection (std::vector<std::vector<coordinate>> polygonVertices, coordinate pointToCheck){
+
+    std::vector<std::vector<float>> testLine = {{0.f, pointToCheck.y}, {pointToCheck.x, pointToCheck.y}};
+    int intersectionCount = 0;
+
+    for(auto& polygon: polygonVertices){
+        int numVertices = polygon.size();
+        for(int i = 0; i < numVertices; i++){
+        
+            std::vector<std::vector<float>> objectLine = {{polygon[i].x, polygon[i].y}, {polygon[(i + 1) % numVertices].x, polygon[(i + 1) % numVertices].y}};
+            // std::cout << polygon[i].x << " " <<  polygon[i].y << " " << polygon[(i + 1) % numVertices].x << " " << polygon[(i + 1) % numVertices].y   << std::endl;
+            intersectionCount += intersectionDetected(testLine, objectLine);
+        }
+    }
+    // std::cout << "Point: " << pointToCheck.x << " " << pointToCheck.y << " Intersection count: " << intersectionCount << std::endl;
+    if((intersectionCount % 2) == 0){
+        //Even count means that we are not inside of an obstacle
+        std::cout << "Safe!" << std::endl;
+        return false;
+    }
+    return true;
+}
 
 bool pointInPolygon(std::vector<float> polygon){
 
@@ -28,9 +48,10 @@ bool pointInPolygon(std::vector<float> polygon){
 
 bool intersectionDetected(std::vector<std::vector<float>>line0, std::vector<std::vector<float>>line1){
 
-    float m0, m1 = 0.f;
-    float b0, b1 = 0.f;
+    // float m0, m1 = 0.f;
+    // float b0, b1 = 0.f;
 
+    float epsilon = 0.1;
 
     std::vector<float> point00 = line0[0];
     std::vector<float> point10 = line0[1];
@@ -38,42 +59,72 @@ bool intersectionDetected(std::vector<std::vector<float>>line0, std::vector<std:
     std::vector<float> point01 = line1[0];
     std::vector<float> point11 = line1[1];
 
-    float xMin = std::max(std::min(point00[0],point10[0]),std::min(point01[0],point11[0]));
-    float yMin = std::max(std::min(point00[1],point10[1]),std::min(point01[1],point11[1]));
+    float xMin = std::max(std::min(point00[0],point10[0]),std::min(point01[0],point11[0])) - epsilon;
+    float yMin = std::max(std::min(point00[1],point10[1]),std::min(point01[1],point11[1])) - epsilon;
 
-    float xMax = std::min(std::max(point00[0],point10[0]),std::max(point01[0],point11[0]));
-    float yMax = std::min(std::max(point00[1],point10[1]),std::max(point01[1],point11[1]));
+    float xMax = std::min(std::max(point00[0],point10[0]),std::max(point01[0],point11[0])) + epsilon;
+    float yMax = std::min(std::max(point00[1],point10[1]),std::max(point01[1],point11[1])) + epsilon;
 
-    m0 = (point10[1] - point00[1])/(point10[0] - point00[0]);
-    m1 = (point11[1] - point01[1])/(point11[0] - point01[0]);
+    // std::cout << "xmin and ymin are: " << xMin << " " << yMin << std::endl;
+    // std::cout << "xmax and ymax are: " << xMax << " " << yMax << std::endl;
+
+    // ax + by + c = 0
+    float a0 = point00[1] - point10[1];
+    float b0 = point10[0] - point00[0];
+    float c0 = point00[0] * point10[1]  - point10[0] * point00[1];
+
+    float a1 = point01[1] - point11[1];
+    float b1 = point11[0] - point01[0];
+    float c1 = point01[0] * point11[1]  - point11[0] * point01[1];
 
 
-    b0 = (point00[1] * point10[0] - point10[1] * point00[0])/(point10[0] - point00[0]);
-    b1 = (point01[1] * point11[0] - point11[1] * point01[0])/(point11[0] - point01[0]);
+    float x_intersection =  (c0*b1 - b0*c1)/(b0*a1 - a0*b1);
+
+    float y_intersection =  (a0*c1 - a1*c0)/(b0*a1 - a0*b1);
+
+
+
+    // if((point11[0] - point01[0]) == 0){
+    //     m0 = (point10[1] - point00[1])/(point10[0] - point00[0]);
+
+    // }
+
+    
+    // m1 = (point11[1] - point01[1])/(point11[0] - point01[0]);
+
+    
+
+
+    // b0 = (point00[1] * point10[0] - point10[1] * point00[0])/(point10[0] - point00[0]);
+    // b1 = (point01[1] * point11[0] - point11[1] * point01[0])/(point11[0] - point01[0]);
 
     // std::cout << m0 << " " << b0 << std::endl; 
+    // std::cout << m1 << " " << b1 << std::endl; 
 
-    if(m0 == m1){
-        if(b0 != b1){
-            return false; //Lines are parallel
-        }else{
-            return true; //Lines are coplanar
-        }
 
-    }
+    // if(m0 == m1){
+    //     if(b0 != b1){
+    //         return false; //Lines are parallel
+    //     }else{
+    //         return true; //Lines are coplanar
+    //     }
 
-    float x_intersection = (b0 - b1)/(m1 - m0);
-    float y_intersection = x_intersection * m0 + b0;
+    // }
+
+    // float x_intersection = (b0 - b1)/(m1 - m0);
+    // float y_intersection = x_intersection * m0 + b0;
 
     std::cout << "Intersection is at: (" << x_intersection << ", " << y_intersection << ")" << std::endl;
 
     if(x_intersection < xMin || x_intersection > xMax){
+        std::cout << "out of bounds on X"<< std::endl;
         return false; //Intersects out of bounds therefore 
     }
 
     // float y_intersection = x_intersection * m0 + b0;
 
     if(y_intersection < yMin || y_intersection > yMax){
+        std::cout << "out of bounds on Y" << std::endl;
         return false; //Out of bounds again
     }
 
