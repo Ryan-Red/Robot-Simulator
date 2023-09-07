@@ -16,11 +16,12 @@ int main() {
     wall.setPosition(100, 290); // Starting position
 
 
-    sf::RectangleShape wall2(sf::Vector2f(100.f, 100.f));
+    sf::RectangleShape wall2(sf::Vector2f(100.f, 150.f));
 
 
     wall2.setFillColor(sf::Color::White);
     wall2.setPosition(300, 310); // Starting position
+    wall2.setRotation(70.0f);
    
 
 
@@ -44,7 +45,7 @@ int main() {
     coordinate goal = {10, 10};
 
 
-    std::vector<std::vector<coordinate>> polygonVertices = {{{100.f, 290.f}, {300.f, 290.f}, {300.f, 340.f}, {100.f, 340.f}}, {{300, 310}, {400, 310}, {400, 410}, {300, 410}}};
+    std::vector<std::vector<coordinate>> polygonVertices = {{{100.f, 290.f}, {300.f, 290.f}, {300.f, 340.f}, {100.f, 340.f}}, {{300, 310}, {400, 350}, {400, 410}, {300, 410}}};
 
     
     // std::vector< std::vector<node>> nodeList = createNodeList(start, goal, 20,20);

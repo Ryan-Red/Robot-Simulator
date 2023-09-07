@@ -24,7 +24,6 @@ bool geometricCollisionDection (std::vector<std::vector<coordinate>> polygonVert
     for(auto& polygon: polygonVertices){
         int numVertices = polygon.size();
         for(int i = 0; i < numVertices; i++){
-        
             std::vector<std::vector<float>> objectLine = {{polygon[i].x, polygon[i].y}, {polygon[(i + 1) % numVertices].x, polygon[(i + 1) % numVertices].y}};
             // std::cout << polygon[i].x << " " <<  polygon[i].y << " " << polygon[(i + 1) % numVertices].x << " " << polygon[(i + 1) % numVertices].y   << std::endl;
             intersectionCount += intersectionDetected(testLine, objectLine);
