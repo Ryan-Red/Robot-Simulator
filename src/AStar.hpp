@@ -8,12 +8,12 @@
 #include <algorithm>
 #include <random>
 #include "../include/coordinate.h"
-#include "../include/node.h"
+#include "../include/node.cpp"
 
 #include "CollisionChecker.cpp"
 
 
-std::vector< std::vector<node>> createNodeList (coordinate start, coordinate goal, int numPoints);
+std::vector<node> createNodeList (coordinate start, coordinate goal, std::vector<std::vector<coordinate>> polygonVertices, int numPoints);
 
 std::vector<float> uniformGenerator(float min, float max, int count);
 

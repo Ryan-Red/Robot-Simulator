@@ -44,16 +44,18 @@ int main() {
 
     coordinate goal = {10, 10};
 
+    int numPoints = 5000;
 
     std::vector<std::vector<coordinate>> polygonVertices = {{{100.f, 290.f}, {300.f, 290.f}, {300.f, 340.f}, {100.f, 340.f}}, {{300, 310}, {400, 350}, {400, 410}, {300, 410}}};
 
     
-    // std::vector< std::vector<node>> nodeList = createNodeList(start, goal, 20,20);
-    // unitTests();
-    std::vector<coordinate> coordinateList = prmGenerator(start,goal, polygonVertices, 5000);
-    for (auto& node : coordinateList){
-           
-        image.setPixel(node.x, node.y,{255,0,0});
+    std::vector<node> nodeList = createNodeList (start, goal, polygonVertices, numPoints);
+
+
+    // std::vector<coordinate> coordinateList = prmGenerator(start,goal, polygonVertices, 5000);
+    for (auto& node : nodeList){
+        coordinate coord = node.getCoordinate();
+        image.setPixel(coord.x, coord.y,{255,0,0});
         // std::cout << node.x << " " << node.y << std::endl;
             
     }
