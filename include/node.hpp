@@ -11,16 +11,19 @@ class node {
             coordinate(coord){};
 
 
-        std::vector<std::pair<node*, float>> getNeighbours();
+        std::vector<std::pair<int, float>> getNeighbours();
 
         coordinate getCoordinate();
 
-        void addNeighbour(node *node, float cost);
+        void addNeighbour(int n, float cost);
+        void addNeighbour(std::pair<int, float> neigh);
+
+        int getNumNeighbours();
 
 
     private:
         coordinate coordinate;
-        std::vector<std::pair<node*, float>> neighbours;
+        std::vector<std::pair<int, float>> neighbours;
 
         
 };

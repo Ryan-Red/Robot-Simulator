@@ -6,16 +6,16 @@
 /*
     True if point is in collision, false if point is not in collision
 */
-bool pointInCollision(sf::Image obstaclesDrawing, float x, float y ){
-    // std::cout << obstaclesDrawing.getPixel(static_cast<int>(x), static_cast<int>(y)).r << std::endl;
-    // sf::Color blk(255,255,255);
-    if(obstaclesDrawing.getPixel(static_cast<int>(x), static_cast<int>(y)) == sf::Color::Black){
-        return true;
-    }
-    return false;
+// bool pointInCollision(sf::Image obstaclesDrawing, float x, float y ){
+//     // std::cout << obstaclesDrawing.getPixel(static_cast<int>(x), static_cast<int>(y)).r << std::endl;
+//     // sf::Color blk(255,255,255);
+//     if(obstaclesDrawing.getPixel(static_cast<int>(x), static_cast<int>(y)) == sf::Color::Black){
+//         return true;
+//     }
+//     return false;
 
 
-}
+// }
 bool geometricCollisionDection (std::vector<std::vector<coordinate>> polygonVertices, coordinate pointToCheck){
 
     std::vector<std::vector<float>> testLine = {{0.f, pointToCheck.y}, {pointToCheck.x, pointToCheck.y}};
