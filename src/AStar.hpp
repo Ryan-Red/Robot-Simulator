@@ -7,10 +7,10 @@
 #include <iostream>
 #include <algorithm>
 #include <random>
-#include "../include/coordinate.h"
-#include "../include/node.cpp"
-
-#include "CollisionChecker.cpp"
+#include "coordinate.h"
+#include "node.hpp"
+#include "CollisionChecker.hpp"
+#include "distance.hpp"
 
 
 std::vector<node> createNodeList (coordinate start, coordinate goal, std::vector<std::vector<coordinate>> polygonVertices, int numPoints);

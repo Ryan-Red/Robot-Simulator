@@ -1,4 +1,8 @@
-#include "CollisionChecker.cpp"
-#include "../include/node.cpp"
+#pragma once
+
+#include "CollisionChecker.hpp"
+#include "node.hpp"
 #include <cmath>
-#include <bits/stdc++.h>
+#include <map>
+#include <set>
+#include "distance.hpp"

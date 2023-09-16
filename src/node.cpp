@@ -1,5 +1,4 @@
 #include "node.hpp"
-#include "coordinate.h"
 
 
 std::vector<std::pair<int, float>> node::getNeighbours(){
@@ -17,14 +16,15 @@ coordinate node::getCoordinate(){
 void node::addNeighbour(int n, float cost){
 
     std::pair<int, float> neigh{n, cost};
+    neighbours.push_back(neigh);
    
 
 }
-void addNeighbour(std::pair<int, float> neigh){
+void node::addNeighbour(std::pair<int, float> neigh){
     neighbours.push_back(neigh);
 
 }
 
-int getNumNeighbours(){
+int node::getNumNeighbours(){
     return neighbours.size();
 }

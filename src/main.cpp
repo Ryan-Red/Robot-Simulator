@@ -1,8 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include <iostream>
-#include "AStar.cpp"
-#include <Collision.h>
+#include "AStar.hpp"
+// #include <Collision.h>
 
 const float DEG_TO_RADIANS = M_PI/180.f;
 int main() {

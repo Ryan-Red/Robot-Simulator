@@ -1,5 +1,3 @@
-#pragma once
-
 #include "CollisionChecker.hpp"
 
 
@@ -39,8 +37,6 @@ bool geometricCollisionDection (std::vector<std::vector<coordinate>> polygonVert
 }
 
 bool pointInPolygon(std::vector<float> polygon){
-
-
 
     return true;
 }

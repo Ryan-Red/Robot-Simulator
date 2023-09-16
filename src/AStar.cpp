@@ -1,5 +1,3 @@
-#pragma once
-
 #include "AStar.hpp"
 
 // struct CompareCost {
@@ -133,14 +131,6 @@ std::vector<node> createNodeList (coordinate start, coordinate goal, std::vector
 
     return nodeList;
 
-}
-
-float euclideanDistance(coordinate current, coordinate goal){
-    return sqrt(pow(current.x - goal.x,2) + pow(current.y - goal.y,2));
-}
-
-float manhattanDistance(coordinate current, coordinate goal){
-    return sqrt(pow(current.x - goal.x,2)) + sqrt(pow(current.y - goal.y,2));
 }
 
 bool AStar(coordinate start, coordinate goal, std::vector<std::vector<coordinate>> polygonVertices, int numPoints, std::function<float(coordinate, coordinate)>h){

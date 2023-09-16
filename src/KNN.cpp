@@ -1,9 +1,6 @@
 #include "KNN.hpp"
 
 
-float euclideanDistance(coordinate current, coordinate goal){
-    return sqrt(pow(current.x - goal.x,2) + pow(current.y - goal.y,2));
-}
 
 struct comp {
     template <typename T>
@@ -20,7 +17,7 @@ struct comp {
  
 // Function to sort the map according
 // to value in a (key-value) pairs
-std::vector<std::pair<node*, float>> sort(std::map<int, float>& M)
+std::vector<std::pair<int, float>> sort(std::map<int, float>& M)
 {
  
     // Declare set of pairs and insert
@@ -40,29 +37,29 @@ std::vector<std::pair<node*, float>> sort(std::map<int, float>& M)
 
 
 
-void bruteForceKNN(std::vector< std::vector<node>> *nodeList, std::vector<std::vector<coordinate>> polygonVertices, int numNeighbours){
+void bruteForceKNN(std::vector<node> &nodeList, std::vector<std::vector<coordinate>> polygonVertices, int numNeighbours){
 
     
 
      // Declare Map
     
-    int listSize = (*nodeList).size();
+    int listSize = nodeList.size();
 
     
 
     for(int i = 0; i < listSize - 1; i++){
 
-        int curNumNeighbours = (*nodeList)[i].getNumNeighbours();
+        int curNumNeighbours = nodeList.at(i).getNumNeighbours();
         if(curNumNeighbours >= numNeighbours){
             continue;
         }
 
         std::map<int, float> M;
 
-        node targetNode = (*nodeList)[i];
+        node targetNode = nodeList[i];
        
         for(int j = i + 1; j < listSize; j++){
-            node otherNode = (*nodeList)[j];
+            node otherNode = nodeList[j];
 
             float dist = euclideanDistance(targetNode.getCoordinate(), otherNode.getCoordinate());
             M.insert(std::pair<int, float>(j, dist));
@@ -71,22 +68,22 @@ void bruteForceKNN(std::vector< std::vector<node>> *nodeList, std::vector<std::v
         std::vector<std::pair<int, float>> candidates = sort(M);
 
         int k = 0;
-        while((*nodeList)[i].getNumNeighbours() <= numNeighbours){
+        while(nodeList[i].getNumNeighbours() <= numNeighbours){
 
             
             int reciprocal = candidates[k].first;
 
             //Max number of neighbours for the targetted node
-            if((*nodeList)[reciprocal].getNumNeighbours() >= numNeighbours){
+            if(nodeList[reciprocal].getNumNeighbours() >= numNeighbours){
                 k++;
                 continue;
             }
 
-            (*nodeList)[i].addNeighbour(candidates[k]);
+            nodeList[i].addNeighbour(candidates[k]);
 
             // Add in the reciprocal connection as the graph is undirected for the nearest neighbours
             // Assume that if B is a nearest neighbour of A, A is a nearest neighbour of B
-            (*nodeList)[reciprocal].addNeighbour(i,candidates[k].second);
+            nodeList[reciprocal].addNeighbour(i,candidates[k].second);
 
             k++;
 
@@ -94,8 +91,6 @@ void bruteForceKNN(std::vector< std::vector<node>> *nodeList, std::vector<std::v
 
     }
  
-    // Function Call
-    sort(M);
 
 
 

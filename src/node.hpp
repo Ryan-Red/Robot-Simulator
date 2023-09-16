@@ -1,4 +1,4 @@
-// #pragma once
+#pragma once
 
 #include "coordinate.h"
 #include <vector>
@@ -7,8 +7,10 @@
 class node {
 
     public:
-        node(coordinate coord):
-            coordinate(coord){};
+        node(coordinate coord ):
+            coordinate(coord){
+                std::vector<std::pair<int, float>> neighbours;
+            };
 
 
         std::vector<std::pair<int, float>> getNeighbours();
