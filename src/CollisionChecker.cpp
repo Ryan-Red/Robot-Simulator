@@ -36,6 +36,51 @@ bool geometricCollisionDection (std::vector<std::vector<coordinate>> polygonVert
     return true;
 }
 
+
+bool lineCollisionDetection (std::vector<std::vector<coordinate>> polygonVertices, std::vector<coordinate>line){
+
+    std::vector<std::vector<float>> testLine = {{line[0].x, line[0].y},{line[1].x, line[1].y}};
+    int intersection = 0;
+
+    for(auto& polygon: polygonVertices){
+        int numVertices = polygon.size();
+        for(int i = 0; i < numVertices; i++){
+            std::vector<std::vector<float>> objectLine = {{polygon[i].x, polygon[i].y}, {polygon[(i + 1) % numVertices].x, polygon[(i + 1) % numVertices].y}};
+            // std::cout << polygon[i].x << " " <<  polygon[i].y << " " << polygon[(i + 1) % numVertices].x << " " << polygon[(i + 1) % numVertices].y   << std::endl;
+            
+            intersection = intersectionDetected(testLine, objectLine);
+            if(intersection != 0){
+                return true;
+            }
+        }
+    }
+    return false;
+    
+}
+
+
+
+bool lineCollisionDetection (std::vector<std::vector<coordinate>> polygonVertices, std::vector<std::vector<float>>line){
+
+    std::vector<std::vector<float>> testLine = line;
+    int intersection = 0;
+
+    for(auto& polygon: polygonVertices){
+        int numVertices = polygon.size();
+        for(int i = 0; i < numVertices; i++){
+            std::vector<std::vector<float>> objectLine = {{polygon[i].x, polygon[i].y}, {polygon[(i + 1) % numVertices].x, polygon[(i + 1) % numVertices].y}};
+            // std::cout << polygon[i].x << " " <<  polygon[i].y << " " << polygon[(i + 1) % numVertices].x << " " << polygon[(i + 1) % numVertices].y   << std::endl;
+            
+            intersection = intersectionDetected(testLine, objectLine);
+            if(intersection != 0){
+                return true;
+            }
+        }
+    }
+    return false;
+    
+}
+
 bool pointInPolygon(std::vector<float> polygon){
 
     return true;

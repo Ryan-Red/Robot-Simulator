@@ -41,12 +41,11 @@ void bruteForceKNN(std::vector<node> &nodeList, std::vector<std::vector<coordina
 
     
 
-     // Declare Map
     
     int listSize = nodeList.size();
 
     
-
+    // Loop to create the neighbour candidate list
     for(int i = 0; i < listSize - 1; i++){
 
         int curNumNeighbours = nodeList[i].getNumNeighbours();
@@ -54,12 +53,19 @@ void bruteForceKNN(std::vector<node> &nodeList, std::vector<std::vector<coordina
             continue;
         }
 
-        std::map<int, float> M;
+        std::map<int, float> M; //map used to sort things later
 
         node targetNode = nodeList[i];
        
         for(int j = i + 1; j < listSize; j++){
             node otherNode = nodeList[j];
+
+            std::vector<coordinate> line = {targetNode.getCoordinate(), otherNode.getCoordinate()};
+
+            // If the connection would result in a collision, dont add the connection to the map and carry on
+            if(lineCollisionDetection(polygonVertices,line) == true){
+                continue;
+            }
 
             float dist = euclideanDistance(targetNode.getCoordinate(), otherNode.getCoordinate());
             M.insert(std::pair<int, float>(j, dist));

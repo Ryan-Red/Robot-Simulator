@@ -13,16 +13,16 @@ int main() {
     sf::RectangleShape wall(sf::Vector2f(200.f, 50.f));
 
 
-    wall.setFillColor(sf::Color::White);
+    wall.setFillColor(sf::Color::Magenta);
     wall.setPosition(100, 290); // Starting position
 
 
-    sf::RectangleShape wall2(sf::Vector2f(100.f, 150.f));
+    // sf::RectangleShape wall2(sf::Vector2f(100.f, 150.f));
 
 
-    wall2.setFillColor(sf::Color::White);
-    wall2.setPosition(300, 310); // Starting position
-    wall2.setRotation(70.0f);
+    // wall2.setFillColor(sf::Color::Red);
+    // wall2.setPosition(300, 310); // Starting position
+    // wall2.setRotation(70.0f);
    
 
 
@@ -33,12 +33,26 @@ int main() {
     sf::Texture texture;
     sf::Sprite sprite;
 
-    window.draw(wall2);
+    // window.draw(wall2);
     window.draw(wall);
     window.display();
 
     
-    
+    sf::ConvexShape convex;
+
+    // resize it to 5 points
+    convex.setPointCount(4);
+    convex.setFillColor(sf::Color::Red);
+
+// {{300, 310}, {400, 350}, {400, 410}, {300, 410}
+    // define the points
+    convex.setPoint(0, sf::Vector2f(300.f, 310.f));
+    convex.setPoint(1, sf::Vector2f(400.f, 350.f));
+    convex.setPoint(2, sf::Vector2f(400.f, 410.f));
+    convex.setPoint(3, sf::Vector2f(300.f, 410.f));
+
+    window.draw(convex);
+
 
 
     coordinate start = {500, 500};
@@ -195,7 +209,8 @@ int main() {
 
 
         window.draw(sprite);
-        // window.draw(wall);
+        window.draw(wall);
+        window.draw(convex);
 
         for(auto line: lineList){
             sf::Vertex drawLine[] =
