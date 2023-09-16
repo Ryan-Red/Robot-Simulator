@@ -2,7 +2,8 @@
 #include <cmath>
 #include <iostream>
 #include "AStar.hpp"
-// #include <Collision.h>
+#include "KNN.hpp"
+
 
 const float DEG_TO_RADIANS = M_PI/180.f;
 int main() {
@@ -44,17 +45,37 @@ int main() {
 
     coordinate goal = {10, 10};
 
-    int numPoints = 5000;
+    int numPoints = 100;
 
     std::vector<std::vector<coordinate>> polygonVertices = {{{100.f, 290.f}, {300.f, 290.f}, {300.f, 340.f}, {100.f, 340.f}}, {{300, 310}, {400, 350}, {400, 410}, {300, 410}}};
 
     
     std::vector<node> nodeList = createNodeList (start, goal, polygonVertices, numPoints);
 
+    std::cout << "Now going to create the KNN" << std::endl;
+    bruteForceKNN(nodeList, polygonVertices, 5);
+
+    std::vector<std::pair<sf::Vertex, sf::Vertex>> lineList;
 
     // std::vector<coordinate> coordinateList = prmGenerator(start,goal, polygonVertices, 5000);
     for (auto& node : nodeList){
         coordinate coord = node.getCoordinate();
+
+        auto neighbours = node.getNeighbours();
+
+        for(auto& n: neighbours){
+            coordinate neighCoord = nodeList[n.first].getCoordinate();
+            std::pair<sf::Vertex, sf::Vertex> line{
+                sf::Vertex(sf::Vector2f(coord.x, coord.y)),
+                sf::Vertex(sf::Vector2f(neighCoord.x, neighCoord.y))
+            };
+            lineList.push_back(line);
+
+        }
+
+        
+
+
         image.setPixel(coord.x, coord.y,{255,0,0});
         // std::cout << node.x << " " << node.y << std::endl;
             
@@ -155,13 +176,36 @@ int main() {
         
 
 
+        // sf::Vertex line[] =
+        // {
+        //     sf::Vertex(sf::Vector2f(10, 10)),
+        //     sf::Vertex(sf::Vector2f(150, 150))
+        // };
+
+        // window.draw(line, 2, sf::Lines);
+
+         
+
     
         // rect.setFillColor(sf::Color::Red);
 
         window.clear();
 
+
+
+
         window.draw(sprite);
         // window.draw(wall);
+
+        for(auto line: lineList){
+            sf::Vertex drawLine[] =
+            {
+                line.first,
+                line.second
+            };
+            window.draw(drawLine, 2, sf::Lines);
+
+        }
 
         window.draw(robot);
         // window.draw(rect);

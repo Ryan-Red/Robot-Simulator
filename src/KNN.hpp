@@ -6,3 +6,5 @@
 #include <map>
 #include <set>
 #include "distance.hpp"
+
+void bruteForceKNN(std::vector<node> &nodeList, std::vector<std::vector<coordinate>> polygonVertices, int numNeighbours);

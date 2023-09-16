@@ -49,7 +49,7 @@ void bruteForceKNN(std::vector<node> &nodeList, std::vector<std::vector<coordina
 
     for(int i = 0; i < listSize - 1; i++){
 
-        int curNumNeighbours = nodeList.at(i).getNumNeighbours();
+        int curNumNeighbours = nodeList[i].getNumNeighbours();
         if(curNumNeighbours >= numNeighbours){
             continue;
         }
@@ -65,12 +65,14 @@ void bruteForceKNN(std::vector<node> &nodeList, std::vector<std::vector<coordina
             M.insert(std::pair<int, float>(j, dist));
    
         }
+
         std::vector<std::pair<int, float>> candidates = sort(M);
 
         int k = 0;
-        while(nodeList[i].getNumNeighbours() <= numNeighbours){
+        int candidateListSize = candidates.size();
 
-            
+        while(nodeList[i].getNumNeighbours() <= numNeighbours && (k < candidateListSize)){
+
             int reciprocal = candidates[k].first;
 
             //Max number of neighbours for the targetted node
