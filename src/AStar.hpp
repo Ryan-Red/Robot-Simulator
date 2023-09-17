@@ -11,14 +11,17 @@
 #include "node.hpp"
 #include "CollisionChecker.hpp"
 #include "distance.hpp"
-
+#include "KNN.hpp"
 
 std::vector<node> createNodeList (coordinate start, coordinate goal, std::vector<std::vector<coordinate>> polygonVertices, int numPoints);
 
 std::vector<float> uniformGenerator(float min, float max, int count);
 
-float euclideanDistance(coordinate current, coordinate goal);
 
-float manhattanDistance(coordinate current, coordinate goal);
+std::vector<coordinate> prmGenerator(coordinate topLeft, coordinate bottomRight, std::vector<std::vector<coordinate>> polygonVertices, int count);
 
-bool AStar(coordinate start, coordinate goal, std::function<float(coordinate, coordinate)>h);
+
+
+std::vector<int> AStar(coordinate start, coordinate goal, std::vector<std::vector<coordinate>> polygonVertices, std::vector<node> nodeList, std::function<float(coordinate, coordinate)>h);
+
+std::vector<int> reconstructPath(std::map<int,int> cameFrom, int current);

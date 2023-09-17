@@ -1,35 +1,22 @@
 #include "KNN.hpp"
 
 
-
-struct comp {
-    template <typename T>
- 
-    // Comparator function
-    bool operator()(const T& l, const T& r) const
-    {
-        if (l.second != r.second) {
-            return l.second < r.second;
-        }
-        return l.first < r.first;
-    }
-};
  
 // Function to sort the map according
 // to value in a (key-value) pairs
-std::vector<std::pair<int, float>> sort(std::map<int, float>& M)
+std::vector<nodeDistance> sort(std::map<int, float>& M)
 {
  
     // Declare set of pairs and insert
     // pairs according to the comparator
     // function comp()
-    std::set<std::pair<int, float>, comp> S(M.begin(), M.end());
+    std::set<nodeDistance, comp> S(M.begin(), M.end());
  
-    std::vector<std::pair<int, float>> sortedVect;
+    std::vector<nodeDistance> sortedVect;
 
     // Print the sorted value
     for (auto& it : S) {
-        sortedVect.push_back(std::pair<int, float>(it.first, it.second));
+        sortedVect.push_back(nodeDistance(it.first, it.second));
         // cout << it.first << ' ' << it.second << endl;
     }
     return sortedVect;
@@ -57,7 +44,7 @@ void bruteForceKNN(std::vector<node> &nodeList, std::vector<std::vector<coordina
 
         node targetNode = nodeList[i];
        
-        for(int j = i + 1; j < listSize; j++){
+        for(int j = 0; j < listSize; j++){
             node otherNode = nodeList[j];
 
             std::vector<coordinate> line = {targetNode.getCoordinate(), otherNode.getCoordinate()};

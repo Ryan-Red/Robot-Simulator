@@ -3,6 +3,7 @@
 #include <iostream>
 #include "AStar.hpp"
 #include "KNN.hpp"
+#include "distance.hpp"
 
 
 const float DEG_TO_RADIANS = M_PI/180.f;
@@ -54,24 +55,43 @@ int main() {
     window.draw(convex);
 
 
+    coordinate lower = {0, 0};
+    coordinate upper = {500, 500};
 
-    coordinate start = {500, 500};
+    coordinate start = {200, 500};
 
-    coordinate goal = {10, 10};
+    coordinate goal = {300, 230};
 
-    int numPoints = 100;
+    int numPoints = 500;
 
     std::vector<std::vector<coordinate>> polygonVertices = {{{100.f, 290.f}, {300.f, 290.f}, {300.f, 340.f}, {100.f, 340.f}}, {{300, 310}, {400, 350}, {400, 410}, {300, 410}}};
 
     
-    std::vector<node> nodeList = createNodeList (start, goal, polygonVertices, numPoints);
+    //Generate the node list
+    std::vector<node> nodeList = createNodeList(lower, upper, polygonVertices, numPoints);
 
-    std::cout << "Now going to create the KNN" << std::endl;
-    bruteForceKNN(nodeList, polygonVertices, 5);
+    node startNode(start);
+    node goalNode(goal);
+
+    nodeList.push_back(startNode);
+    nodeList.push_back(goalNode);
+
+    // Perform KNN on the node list to generate the neighbours (adjacency list for each node)
+    bruteForceKNN(nodeList, polygonVertices, 10);
+
+
+    std::vector<int> path = AStar(start, goal, polygonVertices, nodeList, euclideanDistance);
+
+
 
     std::vector<std::pair<sf::Vertex, sf::Vertex>> lineList;
+    std::vector<std::pair<sf::Vertex, sf::Vertex>> answerList;
+
 
     // std::vector<coordinate> coordinateList = prmGenerator(start,goal, polygonVertices, 5000);
+
+
+
     for (auto& node : nodeList){
         coordinate coord = node.getCoordinate();
 
@@ -93,6 +113,21 @@ int main() {
         image.setPixel(coord.x, coord.y,{255,0,0});
         // std::cout << node.x << " " << node.y << std::endl;
             
+    }
+
+    for (int i = 0; i < path.size() - 1; i++){
+        coordinate cur = nodeList[path[i]].getCoordinate();
+        coordinate nxt = nodeList[path[i+1]].getCoordinate();
+
+        std::cout << "path idx is: " << path[i];
+        std::cout << "Line: " << cur.x << " " << cur.y << " " << nxt.x << " " << nxt.y << std::endl;
+
+        std::pair<sf::Vertex, sf::Vertex> line{
+                sf::Vertex(sf::Vector2f(cur.x, cur.y), sf::Color::Green),
+                sf::Vertex(sf::Vector2f(nxt.x, nxt.y), sf::Color::Green)
+            };
+        answerList.push_back(line);
+
     }
 
     texture.loadFromImage(image);
@@ -190,15 +225,7 @@ int main() {
         
 
 
-        // sf::Vertex line[] =
-        // {
-        //     sf::Vertex(sf::Vector2f(10, 10)),
-        //     sf::Vertex(sf::Vector2f(150, 150))
-        // };
 
-        // window.draw(line, 2, sf::Lines);
-
-         
 
     
         // rect.setFillColor(sf::Color::Red);
@@ -209,10 +236,19 @@ int main() {
 
 
         window.draw(sprite);
-        window.draw(wall);
-        window.draw(convex);
+        // window.draw(wall);
+        // window.draw(convex);
 
         for(auto line: lineList){
+            sf::Vertex drawLine[] =
+            {
+                line.first,
+                line.second
+            };
+            window.draw(drawLine, 2, sf::Lines);
+
+        }
+        for(auto line: answerList){
             sf::Vertex drawLine[] =
             {
                 line.first,
