@@ -62,7 +62,7 @@ int main() {
 
     coordinate goal = {300, 230};
 
-    int numPoints = 500;
+    int numPoints = 100;
 
     std::vector<std::vector<coordinate>> polygonVertices = {{{100.f, 290.f}, {300.f, 290.f}, {300.f, 340.f}, {100.f, 340.f}}, {{300, 310}, {400, 350}, {400, 410}, {300, 410}}};
 
@@ -77,7 +77,7 @@ int main() {
     nodeList.push_back(goalNode);
 
     // Perform KNN on the node list to generate the neighbours (adjacency list for each node)
-    bruteForceKNN(nodeList, polygonVertices, 10);
+    bruteForceKNN(nodeList, polygonVertices, 7);
 
 
     std::vector<int> path = AStar(start, goal, polygonVertices, nodeList, euclideanDistance);

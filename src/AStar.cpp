@@ -111,6 +111,8 @@ std::vector<int> reconstructPath(std::map<int,int> cameFrom, int current){
 
 }
 
+auto cmp=[](nodeDistance a,nodeDistance b){return a.second>b.second;};
+
 std::vector<int> AStar(coordinate start, coordinate goal, std::vector<std::vector<coordinate>> polygonVertices, std::vector<node> nodeList, std::function<float(coordinate, coordinate)>h){
 
 
@@ -123,7 +125,7 @@ std::vector<int> AStar(coordinate start, coordinate goal, std::vector<std::vecto
 
 
 
-    std::priority_queue<nodeDistance, std::vector<nodeDistance>, comp> openSet; //Set of discoverd nodes
+    std::priority_queue<nodeDistance, std::vector<nodeDistance>, decltype(cmp)> openSet(cmp); //Set of discoverd nodes
 
 
     openSet.push(nodeDistance(startIdx, 0.f));// size - 2 because we added it to the 2nd last spot
@@ -141,14 +143,14 @@ std::vector<int> AStar(coordinate start, coordinate goal, std::vector<std::vecto
     std::map<int,float> gScore;
 
     for(int i = 0; i < nodeList.size(); i++){
-        gScore[i] = 9999999.f;
+        gScore[i] = 9999999999.f;
     }
     gScore[startIdx] = 0; // Starting score is 0 for start node;
 
     std::map<int,float> fScore; //fScore = h(n) + g(n)
 
     for(int i = 0; i < nodeList.size(); i++){
-        fScore[i] = 9999999.f;
+        fScore[i] = 9999999999.f;
     }
 
     fScore[startIdx] = h(start,goal); // fScore for start is only the heuristic func
@@ -183,7 +185,7 @@ std::vector<int> AStar(coordinate start, coordinate goal, std::vector<std::vecto
                 cameFrom[neighbourIdx] = current.first;
                 gScore[neighbourIdx] = tentative_gScore;
                 fScore[neighbourIdx] = tentative_gScore +  h(nodeList[neighbourIdx].getCoordinate(),goal);
-                openSet.push(nodeDistance(neighbourIdx,fScore[neighbourCost]));
+                openSet.push(nodeDistance(neighbourIdx,fScore[neighbourIdx]));
             }
 
         }

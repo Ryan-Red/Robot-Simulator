@@ -13,6 +13,7 @@ struct comp {
     // Comparator function
     bool operator()(const T& l, const T& r) const
     {
+        
         if (l.second != r.second) {
             return l.second < r.second;
         }
