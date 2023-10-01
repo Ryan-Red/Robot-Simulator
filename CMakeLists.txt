@@ -18,6 +18,8 @@ add_executable(${TARGET_NAME}
                 ${MODULES_DIR}/KNN.cpp
                 ${MODULES_DIR}/node.cpp
                 ${MODULES_DIR}/distance.cpp
+                ${MODULES_DIR}/robot.cpp
+                ${MODULES_DIR}/trajectoryRollout.cpp
 
 )
 
@@ -25,7 +27,9 @@ include_directories(/usr/local/include)
 include_directories(include)
 
 find_package(SFML 2.6 COMPONENTS system window graphics network audio REQUIRED)
+find_package(Eigen3 3.3 REQUIRED)
 include_directories(${SFML_INCLUDE_DIRS})
+include_directories(${EIGEN3_INCLUDE_DIRS})
 # message("${SFML_INCLUDE_DIRS}")
 
 
@@ -34,7 +38,8 @@ target_link_libraries(${TARGET_NAME}
                         sfml-window 
                         sfml-graphics 
                         sfml-audio 
-                        sfml-network)
+                        sfml-network
+                        Eigen3::Eigen)
 
 
 # add_executable(ColliderCheck src/CollisionChecker.cpp)

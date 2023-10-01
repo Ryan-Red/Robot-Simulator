@@ -62,7 +62,7 @@ int main() {
 
     coordinate goal = {300, 230};
 
-    int numPoints = 100;
+    int numPoints = 500;
 
     std::vector<std::vector<coordinate>> polygonVertices = {{{100.f, 290.f}, {300.f, 290.f}, {300.f, 340.f}, {100.f, 340.f}}, {{300, 310}, {400, 350}, {400, 410}, {300, 410}}};
 
@@ -236,8 +236,8 @@ int main() {
 
 
         window.draw(sprite);
-        // window.draw(wall);
-        // window.draw(convex);
+        window.draw(wall);
+        window.draw(convex);
 
         for(auto line: lineList){
             sf::Vertex drawLine[] =
