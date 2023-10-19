@@ -1,43 +1,41 @@
+#pragma once
 #include <vector>
 // #include <SFML/Graphics.hpp>
 // #include <iostream>
+// #include "trajectoryRollout.hpp"
 #include <Eigen/Dense>
 #include <cmath>
+#include "coordinate.h"
+#include "state.h"
+#include "robotInputCommand.h"
+#include "shape.h"
 
 
 
-typedef struct state{
-
-    float x;
-    float y;
-    float theta;
-    float gamma;
-
-
-} state;
-
-typedef struct shape{
-
-    float width;
-    float length;
-
-} shape;
 
 
 class Robot{
 
     public:
-        Robot(Eigen::MatrixXd kinematicsMatrix, state state0, shape shape, float maxCurvature, float baseLength, float dt = 0.1):
-                m_kinematicsMatrix(kinematicsMatrix),
+        Robot(state state0, shape shape, float maxCurvature, float baseLength, float dt = 0.1):
                 m_state(state0),
                 m_shape(shape),
                 m_maxCurvature(maxCurvature),
                 m_baseLength(baseLength),
-                m_dt(dt){};
+                m_dt(dt){
+                    // m_kinematicsMatrix(2,4);
 
-        void updateKinematicsMatrix();
+                };
 
-        void updateState(float velocity, float turning_rate);
+        // void updateKinematicsMatrix();
+
+        void updateState(robotInputCommand command);
+
+        float getDt();
+
+        state getCurrentState();
+
+
         // Robot(std::vector<int> shape, std::vector<int> initialLoc, std::vector<int> color):
         //     m_shape(shape),
         //     m_pose(initialLoc),

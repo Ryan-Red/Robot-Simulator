@@ -1,10 +1,26 @@
 #include "robot.hpp"
+#include <iostream>
 
+state Robot::getCurrentState(){
 
-void Robot::updateState(float velocity, float turning_rate){
+    return m_state;
+
+}
+
+float Robot::getDt(){
+    return m_dt;
+}
+
+void Robot::updateState(robotInputCommand command){
+
+    float velocity = command.velocity;
+    float turningRate = command.turningRate;
 
     float theta = m_state.theta;
     float gamma = m_state.gamma;
+
+    m_kinematicsMatrix.resize(4,2);
+    // std::cout << "Resized" << std::endl;
 
     m_kinematicsMatrix << cos(theta),              0,
                           sin(theta),              0,
@@ -14,7 +30,9 @@ void Robot::updateState(float velocity, float turning_rate){
     Eigen::Vector2d input;
 
     input << velocity,
-             turning_rate;
+             turningRate;
+
+    // std::cout << "About to multiply" << std::endl;
 
     Eigen::Vector4d q_dot = m_kinematicsMatrix * input; 
 
@@ -28,3 +46,5 @@ void Robot::updateState(float velocity, float turning_rate){
 
 
 }
+
+
