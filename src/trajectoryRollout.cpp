@@ -49,13 +49,31 @@ std::vector<std::vector<coordinate>> rolloutManyTrajectories(Robot robot, float 
 
 
 }
+std::vector<coordinate> rolloutBestTrajectory(Robot &robot, robotInputCommand command, float timeDuration){
 
-inputCommandTrajectory findBestCommand(Robot robot, coordinate target){
 
-    std::vector<float> rotationRange = {-0.2, 0.2};
-    float velocity = 20.f;
-    int numTrajectories = 7;
-    float timeDuration = 5.0;
+    std::vector<coordinate> trajectory;
+
+    state curState = robot.getCurrentState();
+    float dt = robot.getDt();
+
+    trajectory.emplace_back(coordinate{curState.x,curState.y});
+
+    int totalTimesteps = static_cast<int>(timeDuration/dt);
+
+    for(int i = 0; i < totalTimesteps; i++){
+        robot.updateState(command);
+        curState = robot.getCurrentState();
+        trajectory.emplace_back(coordinate{curState.x,curState.y});
+    }
+
+    return trajectory;
+    
+}
+
+
+inputCommandTrajectory findBestCommand(Robot robot, coordinate target, float velocity, float timeDuration, int numTrajectories, std::vector<float> rotationRange){
+
     float rotationDiff = (rotationRange[1] - rotationRange[0])/(float)(numTrajectories-1);
     
 
@@ -68,7 +86,7 @@ inputCommandTrajectory findBestCommand(Robot robot, coordinate target){
 
     for(int i = 0; i < numTrajectories; i++){
         auto &traj = trajectoryList[i];
-        float curScore = euclideanDistance(traj.back(),target);
+        float curScore = euclideanDistance(traj.back(),target) + abs((i - (numTrajectories - 1)/2) * rotationDiff);
         if(curScore < minScore){
             minScore = curScore;
             bestRotation = i*rotationDiff + rotationRange[0];
@@ -77,13 +95,12 @@ inputCommandTrajectory findBestCommand(Robot robot, coordinate target){
         }
 
     }
+    std::cout << "Current best score is of " << minScore << std::endl;
     robotInputCommand command{velocity,bestRotation};
 
     inputCommandTrajectory bestCommand{command,bestTraj};
 
     return bestCommand;
-
-   
     
 }
 

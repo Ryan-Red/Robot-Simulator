@@ -90,7 +90,7 @@ int main() {
 
 
     std::vector<float> rotationList = {-0.2, 0.2};
-    std::vector<std::vector<coordinate>> trajectoryList = rolloutManyTrajectories(rbt,20.f,rotationList,5,5.f);
+    std::vector<std::vector<coordinate>> trajectoryList = rolloutManyTrajectories(rbt,20.f,rotationList,21,5);
     // std::vector<coordinate> trajectory = rolloutSingleTrajectory(rbt,20.f,0.1,5.f);
 
 
@@ -152,11 +152,16 @@ int main() {
                 sf::Vertex(sf::Vector2f(nxt.x, nxt.y), sf::Color::Green)
             };
 
-        std::vector<coordinate> minTraj =  findBestCommand( rbt, nxt);
+        while(rbt.isNear(nxt) == false){
+            inputCommandTrajectory bestCommand =  findBestCommand(rbt, nxt);
 
-         for(auto & coord: minTraj){
-                image.setPixel(coord.x, coord.y,{66, 245, 176});
+            rolloutBestTrajectory(rbt, bestCommand.command);
+
+            for(auto & coord: bestCommand.trajectory){
+                    image.setPixel(coord.x, coord.y,{66, 245, 176});
+            }
         }
+        
 
         answerList.push_back(line);
 

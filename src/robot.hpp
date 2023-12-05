@@ -9,6 +9,7 @@
 #include "state.h"
 #include "robotInputCommand.h"
 #include "shape.h"
+#include "distance.hpp"
 
 
 
@@ -35,6 +36,8 @@ class Robot{
 
         state getCurrentState();
 
+        bool isNear(coordinate target);
+
 
         // Robot(std::vector<int> shape, std::vector<int> initialLoc, std::vector<int> color):
         //     m_shape(shape),
@@ -48,9 +51,11 @@ class Robot{
         Eigen::MatrixXd m_kinematicsMatrix;
         state m_state;
         shape m_shape;
-        float m_maxCurvature;
+        float m_maxCurvature = 0.52;
         float m_baseLength;
         float m_dt;
+
+        float m_closenessRadius = 20;
         // std::vector<int> m_color;
 
 
