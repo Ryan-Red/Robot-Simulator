@@ -32,11 +32,15 @@ class Robot{
 
         void updateState(robotInputCommand command);
 
+        void setClosenessRadius(float closenessRadius);
+
         float getDt();
 
         state getCurrentState();
 
         bool isNear(coordinate target);
+
+        void setDt(float dt);
 
 
         // Robot(std::vector<int> shape, std::vector<int> initialLoc, std::vector<int> color):
@@ -55,7 +59,7 @@ class Robot{
         float m_baseLength;
         float m_dt;
 
-        float m_closenessRadius = 20;
+        float m_closenessRadius = 25;
         // std::vector<int> m_color;
 
 

@@ -88,9 +88,11 @@ int main() {
 
     Robot rbt(state0, shape, maxCurvature, baseLength, dt);
 
+    rbt.setClosenessRadius(25);
+
 
     std::vector<float> rotationList = {-0.2, 0.2};
-    std::vector<std::vector<coordinate>> trajectoryList = rolloutManyTrajectories(rbt,20.f,rotationList,21,5);
+    std::vector<std::vector<coordinate>> trajectoryList = rolloutManyTrajectories(rbt,20.f,rotationList,7,1.5);
     // std::vector<coordinate> trajectory = rolloutSingleTrajectory(rbt,20.f,0.1,5.f);
 
 
@@ -152,14 +154,18 @@ int main() {
                 sf::Vertex(sf::Vector2f(nxt.x, nxt.y), sf::Color::Green)
             };
 
-        while(rbt.isNear(nxt) == false){
+        int timeOut = 0;
+        while(rbt.isNear(nxt) == false && timeOut < 100){
             inputCommandTrajectory bestCommand =  findBestCommand(rbt, nxt);
 
-            rolloutBestTrajectory(rbt, bestCommand.command);
+            auto coordinates = rolloutBestTrajectory(rbt, bestCommand.command);
 
-            for(auto & coord: bestCommand.trajectory){
+            std::cout << "Best Vel is: " << bestCommand.command.velocity << " With turning rate of " << bestCommand.command.turningRate << std::endl;
+
+            for(auto & coord: coordinates){
                     image.setPixel(coord.x, coord.y,{66, 245, 176});
             }
+            timeOut ++;
         }
         
 

@@ -86,7 +86,10 @@ inputCommandTrajectory findBestCommand(Robot robot, coordinate target, float vel
 
     for(int i = 0; i < numTrajectories; i++){
         auto &traj = trajectoryList[i];
-        float curScore = euclideanDistance(traj.back(),target) + abs((i - (numTrajectories - 1)/2) * rotationDiff);
+        float curScore = euclideanDistance(traj.back(),target);
+        if(i > 0){
+            curScore += (i*rotationDiff + rotationRange[0] - robot.getCurrentState().theta);
+        }
         if(curScore < minScore){
             minScore = curScore;
             bestRotation = i*rotationDiff + rotationRange[0];
@@ -95,7 +98,7 @@ inputCommandTrajectory findBestCommand(Robot robot, coordinate target, float vel
         }
 
     }
-    std::cout << "Current best score is of " << minScore << std::endl;
+    // std::cout << "Current best score is of " << minScore << std::endl;
     robotInputCommand command{velocity,bestRotation};
 
     inputCommandTrajectory bestCommand{command,bestTraj};

@@ -11,13 +11,16 @@ float Robot::getDt(){
     return m_dt;
 }
 
+void Robot::setDt(float dt){
+    m_dt = dt;
+}
 
 bool Robot::isNear(coordinate target){
 
     coordinate curPos{m_state.x, m_state.y};
 
     float dist = euclideanDistance(curPos,target);
-
+    std::cout << "dist is: " << dist << std::endl;
     if (dist <= m_closenessRadius){
         return true;
     }
@@ -59,6 +62,7 @@ void Robot::updateState(robotInputCommand command){
 
     if(m_state.theta > m_maxCurvature){
         m_state.theta = m_maxCurvature;
+        m_state.gamma = gamma;
     }
 
 
@@ -67,4 +71,8 @@ void Robot::updateState(robotInputCommand command){
 
 }
 
+
+ void Robot::setClosenessRadius(float closenessRadius){
+    m_closenessRadius = closenessRadius;
+ }
 
