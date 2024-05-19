@@ -63,7 +63,7 @@ int main() {
 
     coordinate goal = {300, 230};
 
-    int numPoints = 100;
+    int numPoints = 250;
 
     std::vector<std::vector<coordinate>> polygonVertices = {{{100.f, 290.f}, {300.f, 290.f}, {300.f, 340.f}, {100.f, 340.f}}, {{300, 310}, {400, 350}, {400, 410}, {300, 410}}};
 
@@ -78,7 +78,7 @@ int main() {
     nodeList.push_back(goalNode);
 
     // Perform KNN on the node list to generate the neighbours (adjacency list for each node)
-    bruteForceKNN(nodeList, polygonVertices, 7);
+    bruteForceKNN(nodeList, polygonVertices, 9);
 
     state state0{200.f,500.f,-0.25,0.f};
     shape shape{20,20};
@@ -88,16 +88,12 @@ int main() {
 
     Robot rbt(state0, shape, maxCurvature, baseLength, dt);
 
-    rbt.setClosenessRadius(25);
+    rbt.setClosenessRadius(15);
 
 
-    std::vector<float> rotationList = {-0.2, 0.2};
-    std::vector<std::vector<coordinate>> trajectoryList = rolloutManyTrajectories(rbt,20.f,rotationList,7,1.5);
+    std::vector<float> rotationList = {-0.3, 0.3};
+    std::vector<std::vector<coordinate>> trajectoryList = rolloutManyTrajectories(rbt,20.f,rotationList,13,1.5);
     // std::vector<coordinate> trajectory = rolloutSingleTrajectory(rbt,20.f,0.1,5.f);
-
-
-
-
 
 
     std::vector<int> path = AStar(start, goal, polygonVertices, nodeList, euclideanDistance);
@@ -301,7 +297,7 @@ int main() {
 
         }
 
-        window.draw(robot);
+        // window.draw(robot);
         // window.draw(rect);
         window.display();
     }

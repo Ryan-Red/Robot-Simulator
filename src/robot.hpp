@@ -18,7 +18,7 @@
 class Robot{
 
     public:
-        Robot(state state0, shape shape, float maxCurvature, float baseLength, float dt = 0.1):
+        Robot(state state0, shape shape, float maxCurvature, float baseLength, float dt = 0.05):
                 m_state(state0),
                 m_shape(shape),
                 m_maxCurvature(maxCurvature),
